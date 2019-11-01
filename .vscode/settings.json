@@ -1,0 +1,18 @@
+{
+  // editor
+  "editor.renderWhitespace": "all",
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+
+  // eslint
+  "eslint.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.autoFixOnSave": true,
+
+  "prettier.eslintIntegration": true, // format code by eslint with prettier
+
+  // files
+  "files.associations": {
+    "*.js": "javascriptreact"
+  }
+}
