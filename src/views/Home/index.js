@@ -1,36 +1,27 @@
 import React, { Suspense } from 'react'
-import { Switch, Link, Route, Redirect } from 'react-router-dom'
+import { Switch, Link, Route, Redirect, useRouteMatch } from 'react-router-dom'
 
-import propTypes from './prop-types'
+function Home () {
+  const match = useRouteMatch()
 
-const navigations = [
-  { path: '/products', name: '商品列表', component: React.lazy(() => import('views/HomeProducts')) },
-  { path: '/cart', name: '購物車', component: React.lazy(() => import('views/HomeCart')) },
-  { path: '/orders', name: '訂單', component: React.lazy(() => import('views/HomeOrders')) },
-  { path: '/feedback', name: '客訴表單', component: React.lazy(() => import('views/HomeFeedback')) },
-]
-
-function Home (props) {
-  console.log('home', props)
   return (
     <Suspense fallback='Loading...'>
-      {navigations.map((navigation, index) => (
-        <Link key={index} to={navigation.path} style={{ padding: 20 }}>
-          {navigation.name}
-        </Link>
-      ))}
+      <Link to={`${match.url}product`}>商品列表</Link>
+      <Link to={`${match.url}cart`}>購物車</Link>
+      <Link to={`${match.url}orders`}>訂單</Link>
+      <Link to={`${match.url}feedback`}>客訴表單</Link>
 
       <Switch>
-        {navigations.map((navigation, index) => (
-          <Route key={index} strict sensetive path={navigation.path} component={navigation.component} />
-        ))}
+        <Route strict sensitive path={`${match.url}product/:id`} component={React.lazy(() => import('views/HomeProductDetail'))} />
+        <Route strict sensitive path={`${match.url}product`} component={React.lazy(() => import('views/HomeProduct'))} />
+        <Route strict sensitive path={`${match.url}cart`} component={React.lazy(() => import('views/HomeCart'))} />
+        <Route strict sensitive path={`${match.url}order`} component={React.lazy(() => import('views/HomeOrder'))} />
+        <Route strict sensitive path={`${match.url}feedback`} component={React.lazy(() => import('views/HomeFeedback'))} />
 
-        <Redirect to={navigations[0].path} />
+        <Redirect replace from={match.url} to={`${match.url}product`} />
       </Switch>
     </Suspense>
   )
 }
-
-Home.propTypes = propTypes
 
 export default Home

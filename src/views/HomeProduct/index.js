@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Link, useRouteMatch } from 'react-router-dom'
 
 import Product from 'components/Product'
 
@@ -8,8 +9,9 @@ import useFetcher from 'lib/effects/useFetcher'
 
 const FragmentWithFetching = withFetching(Fragment)
 
-function Products (props) {
+function HomeProduct (props) {
   const [productResponse, status] = useFetcher({ fetcher: ProductApi.fetchProducts, initialParameters: { page: 1 } })
+  const match = useRouteMatch()
 
   return (
     <FragmentWithFetching
@@ -17,7 +19,9 @@ function Products (props) {
       render={() => (
         <Product.List>
           {productResponse.data.map((product, index) => (
-            <Product.Item key={index} product={product} />
+            <Link key={index} to={`${match.url}/${product.id}`}>
+              <Product.Item product={product} />
+            </Link>
           ))}
         </Product.List>
       )}
@@ -25,4 +29,4 @@ function Products (props) {
   )
 }
 
-export default Products
+export default HomeProduct
