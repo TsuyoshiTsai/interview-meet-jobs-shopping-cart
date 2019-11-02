@@ -10,6 +10,7 @@
   "eslint.autoFixOnSave": true,
 
   "prettier.eslintIntegration": true, // format code by eslint with prettier
+  "prettier.printWidth": 150,
 
   // files
   "files.associations": {
