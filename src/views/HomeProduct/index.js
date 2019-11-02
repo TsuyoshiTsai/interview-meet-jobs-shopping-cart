@@ -9,7 +9,7 @@ import useFetcher from 'lib/effects/useFetcher'
 
 const FragmentWithFetching = withFetching(Fragment)
 
-function HomeProduct (props) {
+function HomeProduct () {
   const [productResponse, status] = useFetcher({ fetcher: ProductApi.fetchProducts, initialParameters: { page: 1 } })
   const match = useRouteMatch()
 

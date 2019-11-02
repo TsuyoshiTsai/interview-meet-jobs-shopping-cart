@@ -13,3 +13,11 @@ export const fetchProducts = ({ page, perPage = 10 } = {}) => {
     transformResponse: axios.defaults.transformResponse.concat([data => data.map(product => new Product(product))]),
   })
 }
+
+export const fetchProductDetail = ({ id } = {}) => {
+  return service.shoppingCart({
+    method: 'GET',
+    url: `/products/${id}`,
+    transformResponse: axios.defaults.transformResponse.concat([data => new Product(data)]),
+  })
+}
