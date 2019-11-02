@@ -1,28 +1,15 @@
 import React, { Suspense } from 'react'
-import { Switch, Link, Route, Redirect } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
-const navigations = [
-  { path: '/products', name: '商品列表', component: React.lazy(() => import('views/Products')) },
-  { path: '/cart', name: '購物車', component: React.lazy(() => import('views/Cart')) },
-  { path: '/orders', name: '訂單', component: React.lazy(() => import('views/Orders')) },
-  { path: '/feedback', name: '客訴表單', component: React.lazy(() => import('views/Feedback')) },
-]
+const Admin = React.lazy(() => import('./views/Admin'))
+const Home = React.lazy(() => import('./views/Home'))
 
-function App (props) {
+function App () {
   return (
     <Suspense fallback='Loading...'>
-      {navigations.map((navigation, index) => (
-        <Link key={index} to={navigation.path} style={{ padding: 20 }}>
-          {navigation.name}
-        </Link>
-      ))}
-
       <Switch>
-        {navigations.map((navigation, index) => (
-          <Route key={index} strict sensetive path={navigation.path} component={navigation.component} />
-        ))}
-
-        <Redirect to={navigations[0].path} />
+        <Route strict sensitive path='/admin' component={Admin} />
+        <Route strict sensitive path='/' component={Home} />
       </Switch>
     </Suspense>
   )

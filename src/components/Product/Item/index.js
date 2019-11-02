@@ -5,7 +5,15 @@ import propTypes from './prop-types'
 function Item (props) {
   const { product } = props
 
-  return <div>{product.name}</div>
+  return (
+    <div>
+      <div>{product.name}</div>
+      <div>
+        庫存: {product.inventory} {product.unit}
+      </div>
+      <div>{product.price}</div>
+    </div>
+  )
 }
 
 Item.propTypes = propTypes
