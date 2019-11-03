@@ -1,4 +1,4 @@
-class IProduct {
+export class IProduct {
   constructor ({ id, name, unit, price, inventory } = {}) {
     this.id = id
     this.name = name
@@ -20,14 +20,19 @@ export class Product extends IProduct {
 }
 
 export class OrderProduct extends IProduct {
-  constructor ({ productId, quantity, ...rest } = {}) {
-    super(rest)
+  constructor ({ id, productId, quantity, product } = {}) {
+    super(product)
 
+    this.id = id
     this.productId = productId
     this.quantity = quantity
   }
 
   get data () {
     return { ...this }
+  }
+
+  static request (product, quantity) {
+    return { productId: product.id, quantity }
   }
 }

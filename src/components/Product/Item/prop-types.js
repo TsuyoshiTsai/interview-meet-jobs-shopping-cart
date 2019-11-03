@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import { Product } from 'lib/models/product'
+import { IProduct } from 'lib/models/product'
 
 export default {
-  product: PropTypes.instanceOf(Product),
+  product: PropTypes.instanceOf(IProduct),
 }

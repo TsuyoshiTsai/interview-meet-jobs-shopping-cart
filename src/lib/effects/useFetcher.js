@@ -11,7 +11,7 @@ const initialState = {
     isLoaded: false,
     isFetching: false,
   },
-  response: null,
+  response: { data: {} },
   error: null,
 }
 

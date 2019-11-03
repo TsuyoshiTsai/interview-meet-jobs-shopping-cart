@@ -1,7 +1,21 @@
 import React from 'react'
 
-function Cart (props) {
-  return <div>cart</div>
+import Product from 'components/Product'
+
+import useCart from 'lib/effects/useCart'
+
+function HomeCart () {
+  const [cart] = useCart()
+
+  return (
+    <>
+      <Product.List>
+        {cart.orderProducts.map((orderProduct, index) => (
+          <Product.Item key={index} product={orderProduct} />
+        ))}
+      </Product.List>
+    </>
+  )
 }
 
-export default Cart
+export default HomeCart

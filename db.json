@@ -4,15 +4,27 @@
       "id": 1,
       "name": "product name",
       "unit": "unitt1",
-      "price": 10.0,
+      "price": 10,
       "inventory": 1
     },
     {
       "id": 2,
       "name": "product name 2",
       "unit": "unitt2",
-      "price": 20.0,
+      "price": 20,
       "inventory": 3
+    }
+  ],
+  "cart": [
+    {
+      "productId": 1,
+      "quantity": 48,
+      "id": 1
+    },
+    {
+      "productId": 2,
+      "quantity": 6,
+      "id": 2
     }
   ]
 }

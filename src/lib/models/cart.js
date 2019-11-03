@@ -1,6 +1,8 @@
+import { OrderProduct } from 'lib/models/product'
+
 export class Cart {
-  constructor ({ orderProducts = [] } = {}) {
-    this.orderProducts = orderProducts
+  constructor (orderProducts) {
+    this.orderProducts = orderProducts.map(orderProduct => new OrderProduct(orderProduct))
   }
 
   get data () {
@@ -11,11 +13,15 @@ export class Cart {
     return this.orderProducts.length
   }
 
-  addOrderProduct (orderProduct) {
-    this.orderProducts = [...this.orderProducts, orderProduct]
+  get orderProductQuantities () {
+    return this.orderProducts.map(orderProduct => orderProduct.quantity).reduce((acc, quantity) => acc + quantity, 0)
   }
 
-  removeOrderProduct (orderProductId) {
-    this.orderProducts = this.orderProducts.filter(orderProduct => orderProduct.id === orderProductId)
+  findByProduct (product) {
+    return this.orderProducts.find(orderProduct => orderProduct.productId === product.id)
+  }
+
+  hasProduct (product) {
+    return this.orderProducts.map(orderProduct => orderProduct.productId).includes(product.id)
   }
 }
