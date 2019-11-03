@@ -17,6 +17,10 @@ export class Cart {
     return this.orderProducts.map(orderProduct => orderProduct.quantity).reduce((acc, quantity) => acc + quantity, 0)
   }
 
+  get orderProductAmount () {
+    return this.orderProducts.map(orderProduct => orderProduct.quantity * orderProduct.price).reduce((acc, subtotal) => acc + subtotal, 0)
+  }
+
   findByProduct (product) {
     return this.orderProducts.find(orderProduct => orderProduct.productId === product.id)
   }

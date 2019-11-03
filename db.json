@@ -2,29 +2,69 @@
   "products": [
     {
       "id": 1,
-      "name": "product name",
-      "unit": "unitt1",
-      "price": 10,
-      "inventory": 1
+      "name": "提升程式數計師的面試力 - 189 道面試題目與解答",
+      "unit": "本",
+      "price": 880,
+      "inventory": 823
     },
     {
       "id": 2,
-      "name": "product name 2",
-      "unit": "unitt2",
-      "price": 20,
-      "inventory": 3
+      "name": "3M - 新二代發熱纖維可水洗暖冬被 - 單人",
+      "unit": "件",
+      "price": 5490,
+      "inventory": 93
     }
   ],
   "cart": [
     {
       "productId": 1,
-      "quantity": 48,
+      "quantity": 49,
       "id": 1
     },
     {
       "productId": 2,
       "quantity": 6,
       "id": 2
+    }
+  ],
+  "payments": [
+    {
+      "id": 1,
+      "name": "貨到付款"
+    },
+    {
+      "id": 2,
+      "name": "銀行轉帳"
+    },
+    {
+      "id": 3,
+      "name": "禮卷/點數"
+    },
+    {
+      "id": 4,
+      "name": "第三方支付"
+    },
+    {
+      "id": 5,
+      "name": "信用卡/VISA金融卡"
+    }
+  ],
+  "shippings": [
+    {
+      "id": 1,
+      "name": "自取"
+    },
+    {
+      "id": 2,
+      "name": "郵寄"
+    },
+    {
+      "id": 3,
+      "name": "超商取貨"
+    },
+    {
+      "id": 4,
+      "name": "宅配到府"
     }
   ]
 }

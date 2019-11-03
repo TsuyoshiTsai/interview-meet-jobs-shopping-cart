@@ -14,6 +14,8 @@ function HomeCart () {
           <Product.Item key={index} product={orderProduct} />
         ))}
       </Product.List>
+
+      <div>小計：{cart.orderProductAmount}</div>
     </>
   )
 }

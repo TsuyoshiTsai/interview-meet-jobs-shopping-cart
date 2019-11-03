@@ -19,7 +19,7 @@ export class Product extends IProduct {
   }
 }
 
-export class OrderProduct extends IProduct {
+export class OrderProduct extends Product {
   constructor ({ id, productId, quantity, product } = {}) {
     super(product)
 

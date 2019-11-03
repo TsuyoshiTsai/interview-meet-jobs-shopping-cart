@@ -1,15 +1,25 @@
-export class Order {
-  constructor ({ id, amount, products, name, phone, address, createdAt, remark }) {
-    this.id = id
-    this.amount = amount
-    this.products = products
+export class Receiver {
+  constructor ({ name, phone, address }) {
     this.name = name
     this.phone = phone
     this.address = address
+  }
+
+  get data () {
+    return { ...this }
+  }
+}
+
+export class Order {
+  constructor ({ id, payment, orderProducts, shipping, receiver, status = Order.Status.Unpaid, createdAt = new Date().toISOString(), remark }) {
+    this.id = id
+    this.payment = payment
+    this.orderProducts = orderProducts
+    this.shipping = shipping
+    this.receiver = receiver
+    this.status = status
     this.createdAt = createdAt
     this.remark = remark
-
-    this.status = Order.Status.Unpaid
   }
 
   get data () {
@@ -21,8 +31,8 @@ export class Order {
   }
 
   static Status = {
-    Unpaid: 0,
-    Paid: 1,
+    Unpaid: 1,
+    Paid: 2,
   }
 
   static StatusText = {
