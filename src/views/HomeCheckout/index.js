@@ -52,7 +52,7 @@ function HomeCheckout () {
 
       const outOfInventoryOrderProducts = latestCart.getOutOfInventoryOrderProducts()
       if (outOfInventoryOrderProducts.length > 0) {
-        throw new Error(`您購買的以下商品數量超過庫存量:\n${invalidQuantityOrderProducts.map(product => product.name).join('\n')}`)
+        throw new Error(`您購買的以下商品數量超過庫存量:\n${outOfInventoryOrderProducts.map(product => product.name).join('\n')}`)
       }
 
       await OrderApi.createOrder(values)

@@ -18,9 +18,11 @@ function HomeProduct () {
       {...status}
       render={() => (
         <Product.List>
-          {productResponse.data.map((product, index) => (
-            <Product.Item key={index} toPath={`${match.url}/${product.id}`} product={product} />
-          ))}
+          {productResponse.data
+            .filter(product => product.inventory > 0)
+            .map((product, index) => (
+              <Product.Item key={index} toPath={`${match.url}/${product.id}`} product={product} />
+            ))}
         </Product.List>
       )}
     />
