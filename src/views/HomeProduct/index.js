@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Link, useRouteMatch } from 'react-router-dom'
+import { useRouteMatch } from 'react-router-dom'
 
 import Product from 'components/Product'
 
@@ -18,11 +18,11 @@ function HomeProduct () {
       {...status}
       render={() => (
         <Product.List>
-          {productResponse.data.map((product, index) => (
-            <Link key={index} to={`${match.url}/${product.id}`}>
-              <Product.Item product={product} />
-            </Link>
-          ))}
+          {productResponse.data
+            .filter(product => product.inventory > 0)
+            .map((product, index) => (
+              <Product.Item key={index} toPath={`${match.url}/${product.id}`} product={product} />
+            ))}
         </Product.List>
       )}
     />
