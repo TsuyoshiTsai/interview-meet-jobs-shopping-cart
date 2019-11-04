@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { useRouteMatch, useHistory } from 'react-router-dom'
+import { useRouteMatch, useHistory, Redirect } from 'react-router-dom'
 import { Formik, Form, Field } from 'formik'
 
 import Product from 'components/Product'
@@ -7,6 +7,7 @@ import Product from 'components/Product'
 import * as CartApi from 'lib/api/cart'
 import * as OrderApi from 'lib/api/order'
 import * as PaymentApi from 'lib/api/payment'
+import * as ProductApi from 'lib/api/product'
 import * as ShippingApi from 'lib/api/shipping'
 import withFetching from 'lib/hocs/withFetching'
 import useFetcher from 'lib/effects/useFetcher'
@@ -20,6 +21,8 @@ function HomeCheckout () {
   const [cart, updateCart] = useCart()
   const [paymentResoponse, paymentStatus] = useFetcher({ fetcher: PaymentApi.fetchPayments })
   const [shippingResponse, shippingStatus] = useFetcher({ fetcher: ShippingApi.fetchShippings })
+
+  const replacedUrl = match.url.replace('checkout', '')
 
   const initialValues = {
     payment: null,
@@ -35,27 +38,52 @@ function HomeCheckout () {
 
   const onSubmit = async (values, actions) => {
     try {
+      const { data: latestCart } = await CartApi.fetchCart()
+
+      const differenceOrderProducts = latestCart.getDifferenceOrderProducts(cart.orderProducts)
+      if (differenceOrderProducts.length > 0) {
+        throw new Error(`您購買的以下商品已經不在購物車內:\n${differenceOrderProducts.map(product => product.name).join('\n')}`)
+      }
+
+      const invalidQuantityOrderProducts = latestCart.getInvalidQuantityOrderProducts(cart.orderProducts)
+      if (invalidQuantityOrderProducts.length > 0) {
+        throw new Error(`您購買的以下商品數量超過您所選擇的數量:\n${invalidQuantityOrderProducts.map(product => product.name).join('\n')}`)
+      }
+
+      const outOfInventoryOrderProducts = latestCart.getOutOfInventoryOrderProducts()
+      if (outOfInventoryOrderProducts.length > 0) {
+        throw new Error(`您購買的以下商品數量超過庫存量:\n${invalidQuantityOrderProducts.map(product => product.name).join('\n')}`)
+      }
+
       await OrderApi.createOrder(values)
-      await Promise.all(cart.orderProducts.map(orderProduct => CartApi.removeOrderProduct({ id: orderProduct.id })))
+      await Promise.all([
+        ...cart.orderProducts.map(orderProduct => CartApi.removeOrderProduct({ id: orderProduct.id })),
+        ...cart.orderProducts.map(orderProduct =>
+          ProductApi.updateInventory({ id: orderProduct.productId, inventory: orderProduct.calculateNextInventory() })
+        ),
+      ])
 
       updateCart()
       history.push(`${match.url}/success`)
     } catch (error) {
       console.error(error)
+      updateCart()
+      alert(error)
+      history.push(`${replacedUrl}cart`)
     }
   }
 
-  return (
+  return cart.orderProducts.length > 0 ? (
     <>
       <div>訂單商品</div>
 
       <Product.List>
         {cart.orderProducts.map((orderProduct, index) => (
-          <Product.Item key={index} product={orderProduct} />
+          <Product.Item key={index} toPath={`${replacedUrl}product/${orderProduct.productId}`} product={orderProduct} />
         ))}
       </Product.List>
 
-      <div>小計：{cart.orderProductAmount}</div>
+      <div>小計：{cart.amount}</div>
 
       <hr />
 
@@ -158,6 +186,8 @@ function HomeCheckout () {
         }}
       </Formik>
     </>
+  ) : (
+    <Redirect to={`${replacedUrl}cart`} />
   )
 }
 

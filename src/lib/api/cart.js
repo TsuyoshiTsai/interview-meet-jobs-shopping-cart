@@ -14,6 +14,16 @@ export const fetchCart = () => {
   })
 }
 
+export const fetchCartItemCount = () => {
+  return service.shoppingCart({
+    method: 'GET',
+    url: '/cart',
+    transformResponse: axios.defaults.transformResponse.concat([
+      data => data.map(orderProduct => orderProduct.quantity).reduce((acc, quantity) => acc + quantity, 0),
+    ]),
+  })
+}
+
 export const addOrderProduct = ({ product, quantity }) => {
   return service.shoppingCart({
     method: 'POST',

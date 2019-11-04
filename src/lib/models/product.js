@@ -1,9 +1,10 @@
 export class IProduct {
-  constructor ({ id, name, unit, price, inventory } = {}) {
+  constructor ({ id, name, unit, price, description } = {}) {
     this.id = id
     this.name = name
     this.unit = unit
     this.price = price
+    this.description = description
   }
 }
 
@@ -34,5 +35,9 @@ export class OrderProduct extends Product {
 
   static request (product, quantity) {
     return { productId: product.id, quantity }
+  }
+
+  calculateNextInventory () {
+    return this.inventory - this.quantity
   }
 }

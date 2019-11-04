@@ -12,23 +12,25 @@ const HomeProduct = React.lazy(() => import('views/HomeProduct'))
 const HomeProductDetail = React.lazy(() => import('views/HomeProductDetail'))
 
 function Home () {
-  const [cart] = useCart()
+  const [cart, updateCart] = useCart()
   const match = useRouteMatch()
 
   return (
     <>
-      <Link to={`${match.url}product`} style={{ padding: 20 }}>
-        商品列表
-      </Link>
-      <Link to={`${match.url}cart`} style={{ padding: 20 }}>
-        購物車 {cart.orderProductQuantities}
-      </Link>
-      <Link to={`${match.url}order`} style={{ padding: 20 }}>
-        訂單
-      </Link>
-      <Link to={`${match.url}feedback`} style={{ padding: 20 }}>
-        客訴表單
-      </Link>
+      <div>
+        <Link to={`${match.url}product`} style={{ padding: 20 }} onClick={updateCart}>
+          商品列表
+        </Link>
+        <Link to={`${match.url}cart`} style={{ padding: 20 }} onClick={updateCart}>
+          購物車 {cart.itemCount}
+        </Link>
+        <Link to={`${match.url}order`} style={{ padding: 20 }} onClick={updateCart}>
+          訂單
+        </Link>
+        <Link to={`${match.url}feedback`} style={{ padding: 20 }} onClick={updateCart}>
+          客訴表單
+        </Link>
+      </div>
 
       <Suspense fallback='Loading...'>
         <Switch>
