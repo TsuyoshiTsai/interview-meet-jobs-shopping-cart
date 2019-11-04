@@ -20,15 +20,19 @@ function HomeProductDetail () {
   const onSubmit = async (values, actions) => {
     const { product, quantity } = values
 
-    if (cart.hasProduct(product)) {
-      const orderProduct = cart.findByProduct(product)
+    try {
+      if (cart.hasProduct(product)) {
+        const orderProduct = cart.findByProduct(product)
 
-      await CartApi.updateOrderProductQuantity({ id: orderProduct.id, quantity: orderProduct.quantity + quantity })
-    } else {
-      await CartApi.addOrderProduct({ product, quantity })
+        await CartApi.updateOrderProductQuantity({ id: orderProduct.id, quantity: orderProduct.quantity + quantity })
+      } else {
+        await CartApi.addOrderProduct({ product, quantity })
+      }
+
+      updateCart()
+    } catch (error) {
+      console.error(error)
     }
-
-    updateCart()
   }
 
   return (
@@ -45,7 +49,7 @@ function HomeProductDetail () {
                   <div>{values.product.unit}</div>
                   <div>{values.product.price}</div>
 
-                  <Field name='quantity' type='number' min='1' />
+                  <Field name='quantity' type='number' min='1' max={values.product.inventory} />
 
                   <button type='submit'>加入購物車</button>
                 </div>

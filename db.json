@@ -18,13 +18,8 @@
   "cart": [
     {
       "productId": 1,
-      "quantity": 49,
+      "quantity": 1,
       "id": 1
-    },
-    {
-      "productId": 2,
-      "quantity": 6,
-      "id": 2
     }
   ],
   "payments": [
@@ -52,19 +47,20 @@
   "shippings": [
     {
       "id": 1,
-      "name": "自取"
-    },
-    {
-      "id": 2,
       "name": "郵寄"
     },
     {
+      "id": 2,
+      "name": "7-11"
+    },
+    {
       "id": 3,
-      "name": "超商取貨"
+      "name": "全家"
     },
     {
       "id": 4,
-      "name": "宅配到府"
+      "name": "宅配"
     }
-  ]
+  ],
+  "orders": []
 }

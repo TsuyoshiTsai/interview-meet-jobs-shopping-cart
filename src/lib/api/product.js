@@ -1,5 +1,5 @@
 import axios from 'axios'
-import * as service from 'lib/api/service'
+import * as service from 'lib/api/_service'
 import { Product } from 'lib/models/product'
 
 export const fetchProducts = ({ page, perPage = 10 } = {}) => {
@@ -19,5 +19,15 @@ export const fetchProductDetail = ({ id } = {}) => {
     method: 'GET',
     url: `/products/${id}`,
     transformResponse: axios.defaults.transformResponse.concat([data => new Product(data)]),
+  })
+}
+
+export const updateInventory = ({ id, inventory }) => {
+  return service.shoppingCart({
+    method: 'PATCH',
+    url: `/products/${id}`,
+    data: {
+      inventory,
+    },
   })
 }
