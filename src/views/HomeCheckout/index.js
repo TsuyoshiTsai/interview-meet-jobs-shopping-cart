@@ -30,6 +30,7 @@ function HomeCheckout () {
   const replacedUrl = match.url.replace('checkout', '')
 
   const initialValues = {
+    amount: cart.amount,
     payment: null,
     orderProducts: cart.orderProducts,
     shipping: null,
@@ -133,7 +134,7 @@ function HomeCheckout () {
                   {({ field }) => (
                     <div>
                       <label htmlFor={field.name}>姓名</label>
-                      <input {...field} id={field.name} type='text' />
+                      <input {...field} id={field.name} maxLength='10' type='text' />
                       <StyledErrorMessage name='receiver.name' />
                     </div>
                   )}
@@ -146,6 +147,7 @@ function HomeCheckout () {
                       <input
                         {...field}
                         id={field.name}
+                        maxLength='10'
                         type='text'
                         onChange={event => setFieldValue(field.name, parser.number(event.target.value))}
                       />

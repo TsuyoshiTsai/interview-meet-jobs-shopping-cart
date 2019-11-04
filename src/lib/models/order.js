@@ -1,3 +1,7 @@
+import { OrderProduct } from 'lib/models/product'
+import { Shipping } from 'lib/models/shipping'
+import { Payment } from 'lib/models/payment'
+
 export class Receiver {
   constructor ({ name, phone, address }) {
     this.name = name
@@ -11,12 +15,13 @@ export class Receiver {
 }
 
 export class Order {
-  constructor ({ id, payment, orderProducts, shipping, receiver, status, createdAt, remark }) {
+  constructor ({ id, amount, payment, orderProducts, shipping, receiver, status, createdAt, remark }) {
     this.id = id
-    this.payment = payment
-    this.orderProducts = orderProducts
-    this.shipping = shipping
-    this.receiver = receiver
+    this.amount = amount
+    this.payment = new Payment(payment)
+    this.orderProducts = orderProducts.map(orderProduct => new OrderProduct(orderProduct))
+    this.shipping = new Shipping(shipping)
+    this.receiver = new Receiver(receiver)
     this.status = status
     this.createdAt = createdAt
     this.remark = remark
@@ -30,8 +35,9 @@ export class Order {
     return Order.StatusText[this.status]
   }
 
-  static request ({ payment, orderProducts, shipping, receiver, remark }) {
+  static request ({ amount, payment, orderProducts, shipping, receiver, remark }) {
     return {
+      amount,
       payment,
       orderProducts,
       shipping,

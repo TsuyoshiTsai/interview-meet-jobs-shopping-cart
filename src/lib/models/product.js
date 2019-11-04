@@ -21,8 +21,8 @@ export class Product extends IProduct {
 }
 
 export class OrderProduct extends Product {
-  constructor ({ id, productId, quantity, product } = {}) {
-    super(product)
+  constructor ({ id, productId, quantity, ...rest } = {}) {
+    super(rest)
 
     this.id = id
     this.productId = productId

@@ -10,7 +10,7 @@ export const fetchCart = () => {
     params: {
       _expand: 'product',
     },
-    transformResponse: axios.defaults.transformResponse.concat([data => new Cart(data)]),
+    transformResponse: axios.defaults.transformResponse.concat([data => new Cart(data.map(({ product, ...rest }) => ({ ...product, ...rest })))]),
   })
 }
 

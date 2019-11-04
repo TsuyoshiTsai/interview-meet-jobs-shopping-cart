@@ -13,7 +13,7 @@ const FragmentWithFetching = withFetching(Fragment)
 
 function HomeProductDetail () {
   const params = useParams()
-  const [cart, updateCart] = useCart()
+  const [, updateCart] = useCart()
   const [productResponse, status] = useFetcher({ fetcher: ProductApi.fetchProductDetail, initialParameters: { id: params.id } })
 
   const initialValues = { product: productResponse.data, quantity: 1 }
@@ -22,8 +22,10 @@ function HomeProductDetail () {
     const { product, quantity } = values
 
     try {
-      if (cart.hasProduct(product.id)) {
-        const orderProduct = cart.findByProductId(product.id)
+      const { data: latestCart } = await CartApi.fetchCart()
+
+      if (latestCart.hasProduct(product.id)) {
+        const orderProduct = latestCart.findByProductId(product.id)
         const newQuantity = orderProduct.quantity + quantity
 
         if (newQuantity > orderProduct.inventory) {
@@ -39,6 +41,7 @@ function HomeProductDetail () {
     } catch (error) {
       console.error(error)
       alert(error.message)
+      updateCart()
     }
   }
 

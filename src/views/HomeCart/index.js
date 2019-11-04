@@ -58,11 +58,11 @@ function HomeCart () {
             </div>
           </>
         ) : (
-          <>
-            <div>您還沒有購買任何商品</div>
+          <div style={{ padding: 20 }}>
+            <div>你的購物車還是空的</div>
 
             <Link to={`${replacedUrl}product`}>去買東西</Link>
-          </>
+          </div>
         )
       }}
     />

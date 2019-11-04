@@ -12,9 +12,7 @@ function Item (props) {
 
   return (
     <div style={{ margin: 20, padding: '0 20px', border: '1px solid #eee' }}>
-      <h3>
-        <Link to={toPath}>{orderProduct.name}</Link>
-      </h3>
+      <h3>{typeof toPath === 'string' ? <Link to={toPath}>{orderProduct.name}</Link> : orderProduct.name}</h3>
 
       <h4 style={{ color: 'red' }}>${formatter.amount(orderProduct.price)}</h4>
 
