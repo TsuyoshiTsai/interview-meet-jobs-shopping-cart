@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { amount } from 'lib/utils/formatter'
+import * as formatter from 'lib/utils/formatter'
 
 import propTypes from './prop-types'
 
@@ -14,7 +14,7 @@ function Item (props) {
         <Link to={toPath}>{product.name}</Link>
       </h3>
 
-      <h4 style={{ color: 'red' }}>${amount(product.price)}</h4>
+      <h4 style={{ color: 'red' }}>${formatter.amount(product.price)}</h4>
 
       <h5>
         剩下 {product.inventory} {product.unit}商品

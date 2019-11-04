@@ -7,7 +7,7 @@ import * as CartApi from 'lib/api/cart'
 import withFetching from 'lib/hocs/withFetching'
 import useFetcher from 'lib/effects/useFetcher'
 import useCart from 'lib/effects/useCart'
-import { amount } from 'lib/utils/formatter'
+import * as formatter from 'lib/utils/formatter'
 
 const FragmentWithFetching = withFetching(Fragment)
 
@@ -44,7 +44,7 @@ function HomeProductDetail () {
 
   return (
     <Formik enableReinitialize initialValues={initialValues} onSubmit={onSubmit}>
-      {({ values }) => {
+      {({ values, isSubmitting }) => {
         return (
           <Form style={{ margin: 20, padding: 20 }}>
             <FragmentWithFetching
@@ -61,7 +61,7 @@ function HomeProductDetail () {
 
                   <br />
 
-                  <div>價錢: ${amount(values.product.price)}</div>
+                  <div>價錢: ${formatter.amount(values.product.price)}</div>
 
                   <br />
 
@@ -71,7 +71,9 @@ function HomeProductDetail () {
 
                   <br />
 
-                  <button type='submit'>加入購物車</button>
+                  <button type='submit' disabled={isSubmitting}>
+                    加入購物車
+                  </button>
 
                   <hr />
 

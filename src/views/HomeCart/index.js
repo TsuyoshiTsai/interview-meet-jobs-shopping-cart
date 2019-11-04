@@ -7,7 +7,7 @@ import * as CartApi from 'lib/api/cart'
 import useCart from 'lib/effects/useCart'
 import useFetcher from 'lib/effects/useFetcher'
 import withFetching from 'lib/hocs/withFetching'
-import { amount } from 'lib/utils/formatter'
+import * as formatter from 'lib/utils/formatter'
 
 const FragmentWithFetching = withFetching(Fragment)
 
@@ -51,7 +51,7 @@ function HomeCart () {
 
             <div style={{ padding: '0 20px' }}>
               <h2>
-                購買總金額 <span style={{ color: 'red' }}>${amount(cartResponse.data.amount)}</span>
+                購買總金額 <span style={{ color: 'red' }}>${formatter.amount(cartResponse.data.amount)}</span>
               </h2>
 
               <Link to={`${replacedUrl}checkout`}>去買單</Link>

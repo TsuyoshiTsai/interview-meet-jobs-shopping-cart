@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { amount } from 'lib/utils/formatter'
+import * as formatter from 'lib/utils/formatter'
 
 import propTypes, { defaultProps } from './prop-types'
 
@@ -16,7 +16,7 @@ function Item (props) {
         <Link to={toPath}>{orderProduct.name}</Link>
       </h3>
 
-      <h4 style={{ color: 'red' }}>${amount(orderProduct.price)}</h4>
+      <h4 style={{ color: 'red' }}>${formatter.amount(orderProduct.price)}</h4>
 
       <div>
         <h5>
@@ -43,7 +43,7 @@ function Item (props) {
 
       <hr />
 
-      <h5 style={{ color: 'red' }}>總計 ${amount(orderProduct.subtotal)}</h5>
+      <h5 style={{ color: 'red' }}>總計 ${formatter.amount(orderProduct.subtotal)}</h5>
 
       {isRemovable && (
         <div style={{ marginBottom: 20 }}>

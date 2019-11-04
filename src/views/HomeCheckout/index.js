@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { useRouteMatch, useHistory, Redirect } from 'react-router-dom'
-import { Formik, Form, Field } from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 
 import OrderProduct from 'components/OrderProduct'
 
@@ -12,9 +12,13 @@ import * as ShippingApi from 'lib/api/shipping'
 import withFetching from 'lib/hocs/withFetching'
 import useFetcher from 'lib/effects/useFetcher'
 import useCart from 'lib/effects/useCart'
-import { amount } from 'lib/utils/formatter'
+import * as formatter from 'lib/utils/formatter'
+import * as parser from 'lib/utils/parser'
+
+import validationSchema from './validationSchema'
 
 const FragmentWithFetching = withFetching(Fragment)
+const StyledErrorMessage = props => <ErrorMessage {...props} render={message => <span style={{ fontSize: 12, color: 'red' }}>{message}</span>} />
 
 function HomeCheckout () {
   const match = useRouteMatch()
@@ -91,13 +95,13 @@ function HomeCheckout () {
       </OrderProduct.List>
 
       <h2>
-        購買總金額 <span style={{ color: 'red' }}>${amount(cart.amount)}</span>
+        購買總金額 <span style={{ color: 'red' }}>${formatter.amount(cart.amount)}</span>
       </h2>
 
       <hr />
 
-      <Formik initialValues={initialValues} onSubmit={onSubmit}>
-        {({ setFieldValue }) => {
+      <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+        {({ setFieldValue, isValid, isSubmitting }) => {
           return (
             <Form>
               <div>寄送資訊</div>
@@ -123,12 +127,14 @@ function HomeCheckout () {
                     />
                   )}
                 </Field>
+                <StyledErrorMessage name='shipping' />
 
                 <Field name='receiver.name'>
                   {({ field }) => (
                     <div>
                       <label htmlFor={field.name}>姓名</label>
                       <input {...field} id={field.name} type='text' />
+                      <StyledErrorMessage name='receiver.name' />
                     </div>
                   )}
                 </Field>
@@ -137,7 +143,13 @@ function HomeCheckout () {
                   {({ field }) => (
                     <div>
                       <label htmlFor={field.name}>手機號碼</label>
-                      <input {...field} id={field.name} type='text' />
+                      <input
+                        {...field}
+                        id={field.name}
+                        type='text'
+                        onChange={event => setFieldValue(field.name, parser.number(event.target.value))}
+                      />
+                      <StyledErrorMessage name='receiver.phone' />
                     </div>
                   )}
                 </Field>
@@ -147,6 +159,7 @@ function HomeCheckout () {
                     <div>
                       <label htmlFor={field.name}>地址</label>
                       <input {...field} id={field.name} type='text' />
+                      <StyledErrorMessage name='receiver.address' />
                     </div>
                   )}
                 </Field>
@@ -154,7 +167,7 @@ function HomeCheckout () {
 
               <hr />
 
-              <div>付款方式</div>
+              <div>選擇付款方式</div>
               <div>
                 <Field name='payment'>
                   {({ field }) => (
@@ -176,6 +189,7 @@ function HomeCheckout () {
                     />
                   )}
                 </Field>
+                <StyledErrorMessage name='payment' />
               </div>
 
               <hr />
@@ -189,7 +203,9 @@ function HomeCheckout () {
                 )}
               </Field>
 
-              <button type='submit'>下訂單</button>
+              <button type='submit' disabled={isSubmitting || !isValid}>
+                下訂單
+              </button>
             </Form>
           )
         }}

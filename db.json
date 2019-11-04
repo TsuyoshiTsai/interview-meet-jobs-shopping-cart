@@ -6,7 +6,7 @@
       "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
       "unit": "本",
       "price": 880,
-      "inventory": 796
+      "inventory": 795
     },
     {
       "id": 2,
@@ -17,13 +17,7 @@
       "inventory": 2
     }
   ],
-  "cart": [
-    {
-      "productId": 1,
-      "quantity": 1,
-      "id": 1
-    }
-  ],
+  "cart": [],
   "payments": [
     {
       "id": 1,
@@ -64,5 +58,31 @@
       "name": "宅配"
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "payment": 3,
+      "orderProducts": [
+        {
+          "id": 1,
+          "name": "提升程式數計師的面試力 - 189 道面試題目與解答",
+          "unit": "本",
+          "price": 880,
+          "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+          "inventory": 796,
+          "productId": 1,
+          "quantity": 1
+        }
+      ],
+      "shipping": 2,
+      "receiver": {
+        "name": "df",
+        "phone": "3",
+        "address": "3"
+      },
+      "status": 1,
+      "createdAt": 1572880348287,
+      "remark": "",
+      "id": 1
+    }
+  ]
 }
