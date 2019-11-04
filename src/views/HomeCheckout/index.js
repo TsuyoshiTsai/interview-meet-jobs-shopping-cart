@@ -135,7 +135,7 @@ function HomeCheckout () {
                     <div>
                       <label htmlFor={field.name}>姓名</label>
                       <input {...field} id={field.name} maxLength='10' type='text' />
-                      <StyledErrorMessage name='receiver.name' />
+                      <StyledErrorMessage name={field.name} />
                     </div>
                   )}
                 </Field>
@@ -151,7 +151,7 @@ function HomeCheckout () {
                         type='text'
                         onChange={event => setFieldValue(field.name, parser.number(event.target.value))}
                       />
-                      <StyledErrorMessage name='receiver.phone' />
+                      <StyledErrorMessage name={field.name} />
                     </div>
                   )}
                 </Field>
@@ -161,7 +161,7 @@ function HomeCheckout () {
                     <div>
                       <label htmlFor={field.name}>地址</label>
                       <input {...field} id={field.name} type='text' />
-                      <StyledErrorMessage name='receiver.address' />
+                      <StyledErrorMessage name={field.name} />
                     </div>
                   )}
                 </Field>
