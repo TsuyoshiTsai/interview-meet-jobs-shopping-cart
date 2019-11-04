@@ -1,19 +1,35 @@
 import React, { Fragment } from 'react'
 import { Link, useRouteMatch } from 'react-router-dom'
 
-import Product from 'components/Product'
+import OrderProduct from 'components/OrderProduct'
 
 import * as CartApi from 'lib/api/cart'
+import useCart from 'lib/effects/useCart'
 import useFetcher from 'lib/effects/useFetcher'
 import withFetching from 'lib/hocs/withFetching'
+import { amount } from 'lib/utils/formatter'
 
 const FragmentWithFetching = withFetching(Fragment)
 
 function HomeCart () {
-  const [cartResponse, cartStatus] = useFetcher({ fetcher: CartApi.fetchCart })
+  const [, updateEffectCart] = useCart()
+  const [cartResponse, cartStatus, updateCart] = useFetcher({ fetcher: CartApi.fetchCart })
 
   const match = useRouteMatch()
   const replacedUrl = match.url.replace('cart', '')
+
+  const onOrderProductQuantityChange = (event, orderProduct, quantity) => {
+    CartApi.updateOrderProductQuantity({ id: orderProduct.id, quantity }).then(() => {
+      updateCart()
+      updateEffectCart()
+    })
+  }
+  const onOrderProductRemove = (event, orderProduct) => {
+    CartApi.removeOrderProduct({ id: orderProduct.id }).then(() => {
+      updateCart()
+      updateEffectCart()
+    })
+  }
 
   return (
     <FragmentWithFetching
@@ -21,15 +37,25 @@ function HomeCart () {
       render={() => {
         return cartResponse.data.orderProducts.length > 0 ? (
           <>
-            <Product.List>
+            <OrderProduct.List>
               {cartResponse.data.orderProducts.map((orderProduct, index) => (
-                <Product.Item key={index} toPath={`${replacedUrl}product/${orderProduct.productId}`} product={orderProduct} />
+                <OrderProduct.Item
+                  key={index}
+                  toPath={`${replacedUrl}product/${orderProduct.productId}`}
+                  orderProduct={orderProduct}
+                  onQuantityChange={onOrderProductQuantityChange}
+                  onRemove={onOrderProductRemove}
+                />
               ))}
-            </Product.List>
+            </OrderProduct.List>
 
-            <div>小計：{cartResponse.data.amount}</div>
+            <div style={{ padding: '0 20px' }}>
+              <h2>
+                購買總金額 <span style={{ color: 'red' }}>${amount(cartResponse.data.amount)}</span>
+              </h2>
 
-            <Link to={`${replacedUrl}checkout`}>去買單</Link>
+              <Link to={`${replacedUrl}checkout`}>去買單</Link>
+            </div>
           </>
         ) : (
           <>

@@ -9,14 +9,16 @@ function Item (props) {
   const { toPath, product } = props
 
   return (
-    <div style={{ margin: 20, padding: 20, border: '1px solid #eee' }}>
-      <Link to={toPath} style={{ display: 'block' }}>
-        {product.name}
-      </Link>
-      <div>
-        庫存: {product.inventory} {product.unit}
-      </div>
-      <div>價錢: ${amount(product.price)}</div>
+    <div style={{ margin: 20, padding: '0 20px', border: '1px solid #eee' }}>
+      <h3>
+        <Link to={toPath}>{product.name}</Link>
+      </h3>
+
+      <h4 style={{ color: 'red' }}>${amount(product.price)}</h4>
+
+      <h5>
+        剩下 {product.inventory} {product.unit}商品
+      </h5>
     </div>
   )
 }

@@ -33,6 +33,10 @@ export class OrderProduct extends Product {
     return { ...this }
   }
 
+  get subtotal () {
+    return this.price * this.quantity
+  }
+
   static request (product, quantity) {
     return { productId: product.id, quantity }
   }

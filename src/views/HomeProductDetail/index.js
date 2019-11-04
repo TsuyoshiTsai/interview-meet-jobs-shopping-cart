@@ -24,8 +24,13 @@ function HomeProductDetail () {
     try {
       if (cart.hasProduct(product.id)) {
         const orderProduct = cart.findByProductId(product.id)
+        const newQuantity = orderProduct.quantity + quantity
 
-        await CartApi.updateOrderProductQuantity({ id: orderProduct.id, quantity: orderProduct.quantity + quantity })
+        if (newQuantity > orderProduct.inventory) {
+          throw new Error('您購買的商品數量超過庫存量')
+        }
+
+        await CartApi.updateOrderProductQuantity({ id: orderProduct.id, quantity: newQuantity })
       } else {
         await CartApi.addOrderProduct({ product, quantity })
       }
@@ -33,6 +38,7 @@ function HomeProductDetail () {
       updateCart()
     } catch (error) {
       console.error(error)
+      alert(error.message)
     }
   }
 

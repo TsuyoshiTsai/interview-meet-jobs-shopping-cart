@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { useRouteMatch, useHistory, Redirect } from 'react-router-dom'
 import { Formik, Form, Field } from 'formik'
 
-import Product from 'components/Product'
+import OrderProduct from 'components/OrderProduct'
 
 import * as CartApi from 'lib/api/cart'
 import * as OrderApi from 'lib/api/order'
@@ -12,6 +12,7 @@ import * as ShippingApi from 'lib/api/shipping'
 import withFetching from 'lib/hocs/withFetching'
 import useFetcher from 'lib/effects/useFetcher'
 import useCart from 'lib/effects/useCart'
+import { amount } from 'lib/utils/formatter'
 
 const FragmentWithFetching = withFetching(Fragment)
 
@@ -67,23 +68,31 @@ function HomeCheckout () {
       history.push(`${match.url}/success`)
     } catch (error) {
       console.error(error)
+      alert(error.message)
       updateCart()
-      alert(error)
       history.push(`${replacedUrl}cart`)
     }
   }
 
   return cart.orderProducts.length > 0 ? (
-    <>
+    <div style={{ padding: 20 }}>
       <div>訂單商品</div>
 
-      <Product.List>
+      <OrderProduct.List>
         {cart.orderProducts.map((orderProduct, index) => (
-          <Product.Item key={index} toPath={`${replacedUrl}product/${orderProduct.productId}`} product={orderProduct} />
+          <OrderProduct.Item
+            key={index}
+            toPath={`${replacedUrl}product/${orderProduct.productId}`}
+            orderProduct={orderProduct}
+            isEditable={false}
+            isRemovable={false}
+          />
         ))}
-      </Product.List>
+      </OrderProduct.List>
 
-      <div>小計：{cart.amount}</div>
+      <h2>
+        購買總金額 <span style={{ color: 'red' }}>${amount(cart.amount)}</span>
+      </h2>
 
       <hr />
 
@@ -185,7 +194,7 @@ function HomeCheckout () {
           )
         }}
       </Formik>
-    </>
+    </div>
   ) : (
     <Redirect to={`${replacedUrl}cart`} />
   )

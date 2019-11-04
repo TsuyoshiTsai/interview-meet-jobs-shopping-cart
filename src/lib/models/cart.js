@@ -10,11 +10,11 @@ export class Cart {
   }
 
   get itemCount () {
-    return this.orderProducts.map(orderProduct => orderProduct.quantity).reduce((acc, quantity) => acc + quantity, 0)
+    return this.orderProducts.reduce((acc, orderProduct) => acc + orderProduct.quantity, 0)
   }
 
   get amount () {
-    return this.orderProducts.map(orderProduct => orderProduct.quantity * orderProduct.price).reduce((acc, subtotal) => acc + subtotal, 0)
+    return this.orderProducts.reduce((acc, orderProduct) => acc + orderProduct.subtotal, 0)
   }
 
   getOrderProductDictionary () {
