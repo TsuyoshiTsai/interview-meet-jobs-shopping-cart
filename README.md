@@ -19,6 +19,6 @@
 
 1. Chrome - Version 78.0.3904.87 (Official Build) (64-bit)
 2. Firefox Developer Edition - 71.0b6 (64-bit)
-   - 請把 Preferences -> Privacy & Security -> Cookies and Site Data 區塊中 "Delete cookies and site data when Firefox Developer Edition is closed" 的設定取消勾選，或是將 `http://localhost:3000/product` 加入到白名單內
+   - 請把 Preferences -> Privacy & Security -> Cookies and Site Data 區塊中 "Delete cookies and site data when Firefox Developer Edition is closed" 的設定取消勾選，或是將 `http://localhost:3000` 加入到白名單內
    - 否則會發生 Firefox 不允許註冊 ServiceWorker 的問題，詳見: https://github.com/angular/angular/issues/28373#issuecomment-457660975
 3. Safari - Version 13.0.3 (14608.3.10.10.1)
